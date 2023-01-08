@@ -1,0 +1,37 @@
+---
+# file: aws_ubuntu_config.yml
+  - hosts: servers
+    
+    # username for ubuntu servers
+    remote_user: ubuntu
+    
+    vars:
+      # location of your private ssh key (change this for your system)
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    
+
+    tasks:
+      - name: TASK 1 - Install Apache
+        ansible.builtin.package:
+          name: apache2
+          state: present
+        become: true
+
+      - name: TASK 2 - Start and Enable Apache
+        ansible.builtin.service:
+          name: apache2
+          state: started
+          enabled: yes
+        become: true
+
+      - name: TASK 3 - Stop Apache
+        ansible.builtin.service:
+          name: apache2
+          state: stopped
+        become: true
+
+      - name: TASK 4 - Remove Apache
+        ansible.builtin.package:
+          name: apache2
+          state: absent
+        become: true
